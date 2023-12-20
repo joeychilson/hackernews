@@ -1,0 +1,10 @@
+{
+  "name": "hackernews",
+  "type": "module",
+  "scripts": {
+    "build": "tailwindcss -i ./assets/app.css -o ./dist/app.css"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}
