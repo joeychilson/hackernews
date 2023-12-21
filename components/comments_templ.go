@@ -12,7 +12,6 @@ import "bytes"
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/joeychilson/hackernews/types"
 )
@@ -103,7 +102,7 @@ func Comments(comments []types.Item, level int) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var7 string = time.Unix(comment.Time, 0).Format("2006-01-02 15:04:05")
+			var templ_7745c5c3_Var7 string = timeAgo(comment.Time)
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
