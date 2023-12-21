@@ -31,7 +31,7 @@ func StoryItem(story types.Item) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex items-center p-4 bg-white border-r border-b border-l border-gray-200\"><div class=\"w-16 flex justify-center items-center mr-4\"><span class=\"text-lg font-medium text-orange-500\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex items-center p-4 bg-white border-r border-b border-l border-gray-200\"><div class=\"lg:w-12 w-8 flex justify-center items-center mr-4\"><span class=\"text-sm lg:text-lg font-medium text-orange-500\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -49,7 +49,7 @@ func StoryItem(story types.Item) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"text-md font-semibold text-blue-600 hover:text-blue-800\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"text-sm lg:text-base font-semibold text-blue-600 hover:text-blue-800\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

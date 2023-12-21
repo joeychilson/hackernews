@@ -10,13 +10,13 @@ import (
 
 templ StoryItem(story types.Item) {
 	<div class="flex items-center p-4 bg-white border-r border-b border-l border-gray-200">
-		<div class="w-16 flex justify-center items-center mr-4">
-			<span class="text-lg font-medium text-orange-500">
+		<div class="lg:w-12 w-8 flex justify-center items-center mr-4">
+			<span class="text-sm lg:text-lg font-medium text-orange-500">
 				{ strconv.Itoa(story.Score) }
 			</span>
 		</div>
 		<div class="flex-1">
-			<a href={ templ.URL(story.URL) } class="text-md font-semibold text-blue-600 hover:text-blue-800">
+			<a href={ templ.URL(story.URL) } class="text-sm lg:text-base font-semibold text-blue-600 hover:text-blue-800">
 				{ story.Title }
 			</a>
 			<div class="text-sm text-gray-500">
