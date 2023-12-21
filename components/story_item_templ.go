@@ -11,7 +11,9 @@ import "io"
 import "bytes"
 
 import (
+	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/joeychilson/hackernews/models"
 )
@@ -79,7 +81,7 @@ func StoryItem(story models.Item) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var8 string = strconv.Itoa(story.Time)
+		var templ_7745c5c3_Var8 string = time.Unix(story.Time, 0).Format("2006-01-02 15:04:05")
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -93,12 +95,21 @@ func StoryItem(story models.Item) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/story/{story.ID}/comments\" class=\"hover:text-blue-600\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var10 string = strconv.Itoa(len(story.Kids))
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+		var templ_7745c5c3_Var10 templ.SafeURL = templ.URL(fmt.Sprintf("/story/%v/comments", story.ID))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var10)))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"hover:text-blue-600\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var11 string = strconv.Itoa(len(story.Kids))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -106,8 +117,8 @@ func StoryItem(story models.Item) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var11 := `comments`
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var11)
+		templ_7745c5c3_Var12 := `comments`
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var12)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

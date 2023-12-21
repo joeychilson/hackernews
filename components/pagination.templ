@@ -1,0 +1,55 @@
+package components
+
+import (
+	"fmt"
+	"strconv"
+)
+
+templ Pagination(total int, perPage int, currentPage int, startPage int, totalPages int, pageNumbers []int) {
+	<div class="flex justify-between items-center px-4 py-3 border-t border-gray-200 sm:px-6">
+		<div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+			<div>
+				<p class="text-sm text-gray-700">
+					Showing
+					<span class="font-medium">{ strconv.Itoa(max(1, (currentPage-1)*perPage+1)) }</span>
+					to
+					<span class="font-medium">{ strconv.Itoa(min(currentPage*perPage, total)) }</span>
+					of
+					<span class="font-medium">{ strconv.Itoa(total) }</span>
+					results
+				</p>
+			</div>
+			<div>
+				<nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+					<!-- Previous Page Link -->
+					<a
+ 						href={ templ.URL(fmt.Sprintf("?p=%v", max(1, currentPage-1))) }
+ 						class={ "relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50", templ.KV("hidden", currentPage == 1) }
+					>
+						<svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+							<path fill-rule="evenodd" d="M7.707 14.707a1 1 0 001.414-1.414L5.414 10l3.707-3.707A1 1 0 007.707 4.293L3.293 8.707a1 1 0 000 1.414l4.414 4.586z" clip-rule="evenodd"></path>
+						</svg>
+					</a>
+					<!-- Page Numbers -->
+					for _, num := range pageNumbers {
+						<a
+ 							href={ templ.URL(fmt.Sprintf("?p=%v", num)) }
+ 							class={ "px-4 py-2 border border-gray-300 text-gray-700 hover:bg-orange-500 hover:text-white", templ.KV("bg-orange-500 text-white", num == currentPage) }
+						>
+							{ strconv.Itoa(num) }
+						</a>
+					}
+					<!-- Next Page Link -->
+					<a
+ 						href={ templ.URL(fmt.Sprintf("?p=%v", min(currentPage+1, totalPages))) }
+ 						class={ "relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50", templ.KV("hidden", currentPage == totalPages) }
+					>
+						<svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+							<path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4.414 4.414a1 1 0 010 1.414l-4.414 4.414a1 1 0 01-1.414-1.414L15.586 10l-3.293-3.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+						</svg>
+					</a>
+				</nav>
+			</div>
+		</div>
+	</div>
+}

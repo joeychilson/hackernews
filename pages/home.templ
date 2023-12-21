@@ -6,12 +6,13 @@ import (
 	"github.com/joeychilson/hackernews/models"
 )
 
-templ Home(stories []models.Item) {
+templ Home(props models.HomeProps) {
 	@layouts.Default() {
 		<div class="mx-auto max-w-4xl">
-			for _, story := range stories {
+			for _, story := range props.Stories {
 				@components.StoryItem(story)
 			}
+			@components.Pagination(props.Total, props.PerPage, props.CurrentPage, props.StartPage, props.TotalPages, props.PageNumbers)
 		</div>
 	}
 }

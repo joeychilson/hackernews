@@ -1,7 +1,9 @@
 package components
 
 import (
+	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/joeychilson/hackernews/models"
 )
@@ -18,7 +20,7 @@ templ StoryItem(story models.Item) {
 				{ story.Title }
 			</a>
 			<div class="text-sm text-gray-500">
-				by { story.By } | { strconv.Itoa(story.Time) } | <a href="/story/{story.ID}/comments" class="hover:text-blue-600">{ strconv.Itoa(len(story.Kids)) } comments</a>
+				by { story.By } | { time.Unix(story.Time, 0).Format("2006-01-02 15:04:05") } | <a href={ templ.URL(fmt.Sprintf("/story/%v/comments", story.ID)) } class="hover:text-blue-600">{ strconv.Itoa(len(story.Kids)) } comments</a>
 			</div>
 		</div>
 	</div>

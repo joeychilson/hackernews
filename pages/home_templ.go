@@ -16,7 +16,7 @@ import (
 	"github.com/joeychilson/hackernews/models"
 )
 
-func Home(stories []models.Item) templ.Component {
+func Home(props models.HomeProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -39,11 +39,15 @@ func Home(stories []models.Item) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			for _, story := range stories {
+			for _, story := range props.Stories {
 				templ_7745c5c3_Err = components.StoryItem(story).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
+			}
+			templ_7745c5c3_Err = components.Pagination(props.Total, props.PerPage, props.CurrentPage, props.StartPage, props.TotalPages, props.PageNumbers).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 			if templ_7745c5c3_Err != nil {
