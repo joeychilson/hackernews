@@ -13,13 +13,18 @@ func HandleThreads(client *client.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 		if id == "" {
-			http.Error(w, "missing id", http.StatusBadRequest)
+			pages.NotFound().Render(r.Context(), w)
 			return
 		}
 
 		user, err := client.User(r.Context(), id)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			pages.Error().Render(r.Context(), w)
+			return
+		}
+
+		if user.ID == "" {
+			pages.NotFound().Render(r.Context(), w)
 			return
 		}
 
@@ -27,7 +32,7 @@ func HandleThreads(client *client.Client) http.HandlerFunc {
 		for _, id := range user.Submitted {
 			item, err := client.Item(r.Context(), id)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				pages.NotFound().Render(r.Context(), w)
 				return
 			}
 			if item.Type != "comment" {
@@ -56,13 +61,13 @@ func HandleThreads(client *client.Client) http.HandlerFunc {
 		for _, thread := range threads {
 			item, err := client.Item(r.Context(), thread.ID)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				pages.NotFound().Render(r.Context(), w)
 				return
 			}
 
 			comments, err := getComments(r.Context(), client, item.Kids)
 			if err != nil {
-				pages.NotFound().Render(r.Context(), w)
+				pages.Error().Render(r.Context(), w)
 				return
 			}
 			item.Children = comments

@@ -1,0 +1,18 @@
+package pages
+
+import (
+	"github.com/joeychilson/hackernews/layouts"
+)
+
+templ Error() {
+	@layouts.Default("500 Internal Error") {
+		<div class="h-screen flex items-center justify-center text-center px-4">
+			<div>
+				<h1 class="text-6xl font-bold text-orange-500">500</h1>
+				<p class="text-xl mt-4">Internal Error</p>
+				<p class="mt-2">Something went wrong. Please try again later.</p>
+				<a href="/" class="mt-6 inline-block bg-orange-500 text-white px-6 py-3 rounded-md text-lg font-medium hover:bg-orange-600 transition-colors">Go Home</a>
+			</div>
+		</div>
+	}
+}

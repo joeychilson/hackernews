@@ -19,7 +19,7 @@ func HandleNews(client *client.Client) http.HandlerFunc {
 
 		storyIDs, err := client.TopStories(r.Context())
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			pages.Error().Render(r.Context(), w)
 			return
 		}
 
@@ -36,7 +36,7 @@ func HandleNews(client *client.Client) http.HandlerFunc {
 		for _, id := range storyIDs[start:end] {
 			story, err := client.Item(r.Context(), id)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				pages.NotFound().Render(r.Context(), w)
 				return
 			}
 			stories = append(stories, story)

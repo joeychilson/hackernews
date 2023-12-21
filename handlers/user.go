@@ -12,13 +12,18 @@ func HandleUser(client *client.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 		if id == "" {
-			http.Error(w, "missing id", http.StatusBadRequest)
+			pages.NotFound().Render(r.Context(), w)
 			return
 		}
 
 		user, err := client.User(r.Context(), id)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			pages.Error().Render(r.Context(), w)
+			return
+		}
+
+		if user.ID == "" {
+			pages.NotFound().Render(r.Context(), w)
 			return
 		}
 

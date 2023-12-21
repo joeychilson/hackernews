@@ -16,7 +16,7 @@ func HandleItem(client *client.Client) http.HandlerFunc {
 
 		idInt, err := strconv.Atoi(id)
 		if err != nil {
-			pages.NotFound().Render(r.Context(), w)
+			pages.Error().Render(r.Context(), w)
 			return
 		}
 
@@ -26,9 +26,14 @@ func HandleItem(client *client.Client) http.HandlerFunc {
 			return
 		}
 
+		if item.ID == 0 {
+			pages.NotFound().Render(r.Context(), w)
+			return
+		}
+
 		comments, err := getComments(r.Context(), client, item.Kids)
 		if err != nil {
-			pages.NotFound().Render(r.Context(), w)
+			pages.Error().Render(r.Context(), w)
 			return
 		}
 
