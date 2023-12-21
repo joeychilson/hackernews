@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/pages"
+	"github.com/joeychilson/hackernews/pkg/hackernews"
 )
 
-func HandleAsk(c *client.Client) http.HandlerFunc {
+func HandleAsk(c *hackernews.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		pageStr := r.URL.Query().Get("p")
 		page, err := strconv.Atoi(pageStr)
@@ -31,7 +31,7 @@ func HandleAsk(c *client.Client) http.HandlerFunc {
 			end = len(storyIDs)
 		}
 
-		stories := make([]client.Item, 0, pageSize)
+		stories := make([]hackernews.Item, 0, pageSize)
 		for _, id := range storyIDs[start:end] {
 			story, err := c.GetItem(r.Context(), id)
 			if err != nil {

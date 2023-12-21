@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/pages"
+	"github.com/joeychilson/hackernews/pkg/hackernews"
 )
 
-func HandleItem(c *client.Client) http.HandlerFunc {
+func HandleItem(c *hackernews.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 
@@ -45,8 +45,8 @@ func HandleItem(c *client.Client) http.HandlerFunc {
 	}
 }
 
-func getComments(ctx context.Context, c *client.Client, kids []int) ([]client.Item, error) {
-	var comments []client.Item
+func getComments(ctx context.Context, c *hackernews.Client, kids []int) ([]hackernews.Item, error) {
+	var comments []hackernews.Item
 	for _, kid := range kids {
 		comment, err := c.GetItem(ctx, kid)
 		if err != nil {

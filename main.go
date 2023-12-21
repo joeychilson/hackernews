@@ -2,23 +2,23 @@ package main
 
 import (
 	"embed"
-	"fmt"
+	"log"
 	"net/http"
 
-	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/handlers"
 	"github.com/joeychilson/hackernews/pages"
+	"github.com/joeychilson/hackernews/pkg/hackernews"
 )
 
-//go:embed assets/*
-var assets embed.FS
+//go:embed static
+var static embed.FS
 
 func main() {
-	client := client.New()
+	client := hackernews.New()
 
 	mux := http.NewServeMux()
 
-	// Redirects to GitHub repo
+	// Redirects to News to match the original site
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
 			pages.NotFound().Render(r.Context(), w)
@@ -27,8 +27,8 @@ func main() {
 		http.Redirect(w, r, "/news", http.StatusFound)
 	})
 
-	// Assets
-	mux.Handle("/assets/", http.FileServer(http.FS(assets)))
+	// Static files
+	mux.Handle("/static/", http.FileServer(http.FS(static)))
 
 	// Pages
 	mux.HandleFunc("/ask", handlers.HandleAsk(client))
@@ -41,6 +41,8 @@ func main() {
 	mux.HandleFunc("/threads", handlers.HandleThreads(client))
 	mux.HandleFunc("/user", handlers.HandleUser(client))
 
-	fmt.Println("Listening on http://localhost:8080")
-	http.ListenAndServe(":8080", mux)
+	log.Println("Listening on http://localhost:8080")
+	if err := http.ListenAndServe(":8080", mux); err != nil {
+		log.Fatal(err)
+	}
 }

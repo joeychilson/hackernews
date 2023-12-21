@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/pages"
+	"github.com/joeychilson/hackernews/pkg/hackernews"
 )
 
-func HandleThreads(c *client.Client) http.HandlerFunc {
+func HandleThreads(c *hackernews.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 		if id == "" {
@@ -27,7 +27,7 @@ func HandleThreads(c *client.Client) http.HandlerFunc {
 			return
 		}
 
-		var threads []client.Item
+		var threads []hackernews.Item
 		for _, id := range user.Submitted {
 			item, err := c.GetItem(r.Context(), id)
 			if err != nil {
@@ -56,7 +56,7 @@ func HandleThreads(c *client.Client) http.HandlerFunc {
 		}
 		threads = threads[start:end]
 
-		threadItems := make([]client.Item, 0, len(threads))
+		threadItems := make([]hackernews.Item, 0, len(threads))
 		for _, thread := range threads {
 			item, err := c.GetItem(r.Context(), thread.ID)
 			if err != nil {

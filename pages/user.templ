@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/components"
 	"github.com/joeychilson/hackernews/layouts"
+	"github.com/joeychilson/hackernews/pkg/hackernews"
 )
 
 type UserProps struct {
-	User client.User
+	User hackernews.User
 }
 
 templ User(props UserProps) {

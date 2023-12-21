@@ -13,14 +13,14 @@ import "bytes"
 import (
 	"fmt"
 
-	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/components"
 	"github.com/joeychilson/hackernews/layouts"
+	"github.com/joeychilson/hackernews/pkg/hackernews"
 )
 
 type UserCommentsProps struct {
 	User        string
-	Comments    []client.Item
+	Comments    []hackernews.Item
 	Total       int
 	PerPage     int
 	CurrentPage int

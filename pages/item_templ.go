@@ -14,14 +14,14 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/components"
 	"github.com/joeychilson/hackernews/layouts"
+	"github.com/joeychilson/hackernews/pkg/hackernews"
 )
 
 type ItemProps struct {
-	Item     client.Item
-	Comments []client.Item
+	Item     hackernews.Item
+	Comments []hackernews.Item
 }
 
 func Item(props ItemProps) templ.Component {

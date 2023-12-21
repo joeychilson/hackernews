@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/joeychilson/hackernews/client"
+	"github.com/joeychilson/hackernews/pkg/hackernews"
 )
 
-templ StoryItem(story client.Item) {
+templ StoryItem(story hackernews.Item) {
 	<div class="flex items-center p-4 bg-white border-r border-b border-l border-gray-200">
 		<div class="lg:w-12 w-8 flex justify-center items-center mr-4">
 			<span class="text-sm lg:text-lg font-medium text-orange-500">

@@ -3,8 +3,8 @@
 A Hacker News clone built with [Go](https://go.dev/), [templ](https://github.com/a-h/templ), and [Tailwind](https://tailwindcss.com/)
 
 <p align="center">
-    <img width="1080" src="https://hckrnws.fly.dev/assets/home_page.png">
-    <img width="1080" src="https://hckrnws.fly.dev/assets/thread.png">
+    <img width="1080" src="https://hckrnws.fly.dev/static/img/homepage.png">
+    <img width="1080" src="https://hckrnws.fly.dev/static/img/thread.png">
 </p>
 
 ## Demo

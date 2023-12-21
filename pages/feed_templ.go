@@ -11,14 +11,14 @@ import "io"
 import "bytes"
 
 import (
-	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/components"
 	"github.com/joeychilson/hackernews/layouts"
+	"github.com/joeychilson/hackernews/pkg/hackernews"
 )
 
 type FeedProps struct {
 	Title       string
-	Stories     []client.Item
+	Stories     []hackernews.Item
 	Total       int
 	PerPage     int
 	CurrentPage int

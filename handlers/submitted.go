@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/pages"
+	"github.com/joeychilson/hackernews/pkg/hackernews"
 )
 
-func HandleSubmitted(c *client.Client) http.HandlerFunc {
+func HandleSubmitted(c *hackernews.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 		if id == "" {
@@ -28,7 +28,7 @@ func HandleSubmitted(c *client.Client) http.HandlerFunc {
 			return
 		}
 
-		var submitted []client.Item
+		var submitted []hackernews.Item
 		for _, id := range user.Submitted {
 			item, err := c.GetItem(r.Context(), id)
 			if err != nil {

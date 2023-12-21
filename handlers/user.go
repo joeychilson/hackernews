@@ -3,11 +3,11 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/pages"
+	"github.com/joeychilson/hackernews/pkg/hackernews"
 )
 
-func HandleUser(c *client.Client) http.HandlerFunc {
+func HandleUser(c *hackernews.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 		if id == "" {
