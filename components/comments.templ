@@ -3,10 +3,10 @@ package components
 import (
 	"fmt"
 
-	"github.com/joeychilson/hackernews/types"
+	"github.com/joeychilson/hackernews/client"
 )
 
-templ Comments(comments []types.Item, level int) {
+templ Comments(comments []client.Item, level int) {
 	for _, comment := range comments {
 		<div
  			if level == 0 {

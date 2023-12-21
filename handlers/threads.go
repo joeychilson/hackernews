@@ -6,10 +6,9 @@ import (
 
 	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/pages"
-	"github.com/joeychilson/hackernews/types"
 )
 
-func HandleThreads(client *client.Client) http.HandlerFunc {
+func HandleThreads(c *client.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 		if id == "" {
@@ -17,7 +16,7 @@ func HandleThreads(client *client.Client) http.HandlerFunc {
 			return
 		}
 
-		user, err := client.User(r.Context(), id)
+		user, err := c.GetUser(r.Context(), id)
 		if err != nil {
 			pages.Error().Render(r.Context(), w)
 			return
@@ -28,9 +27,9 @@ func HandleThreads(client *client.Client) http.HandlerFunc {
 			return
 		}
 
-		var threads []types.Item
+		var threads []client.Item
 		for _, id := range user.Submitted {
-			item, err := client.Item(r.Context(), id)
+			item, err := c.GetItem(r.Context(), id)
 			if err != nil {
 				pages.NotFound().Render(r.Context(), w)
 				return
@@ -57,15 +56,15 @@ func HandleThreads(client *client.Client) http.HandlerFunc {
 		}
 		threads = threads[start:end]
 
-		threadItems := make([]types.Item, 0, len(threads))
+		threadItems := make([]client.Item, 0, len(threads))
 		for _, thread := range threads {
-			item, err := client.Item(r.Context(), thread.ID)
+			item, err := c.GetItem(r.Context(), thread.ID)
 			if err != nil {
 				pages.NotFound().Render(r.Context(), w)
 				return
 			}
 
-			comments, err := getComments(r.Context(), client, item.Kids)
+			comments, err := getComments(r.Context(), c, item.Kids)
 			if err != nil {
 				pages.Error().Render(r.Context(), w)
 				return
@@ -89,7 +88,7 @@ func HandleThreads(client *client.Client) http.HandlerFunc {
 			pageNumbers = append(pageNumbers, i)
 		}
 
-		props := types.UserCommentsProps{
+		props := pages.UserCommentsProps{
 			User:        user.ID,
 			Comments:    threadItems,
 			Total:       len(threadItems),

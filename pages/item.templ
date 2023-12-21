@@ -5,11 +5,16 @@ import (
 	"strconv"
 
 	"github.com/joeychilson/hackernews/layouts"
-	"github.com/joeychilson/hackernews/types"
+	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/components"
 )
 
-templ Item(props types.ItemProps) {
+type ItemProps struct {
+	Item     client.Item
+	Comments []client.Item
+}
+
+templ Item(props ItemProps) {
 	@layouts.Default(props.Item.Title) {
 		<div class="mx-auto max-w-4xl">
 			<div class="bg-white p-4 mb-2 border-r border-b border-l border-gray-200">

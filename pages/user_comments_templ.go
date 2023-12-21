@@ -13,12 +13,23 @@ import "bytes"
 import (
 	"fmt"
 
+	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/components"
 	"github.com/joeychilson/hackernews/layouts"
-	"github.com/joeychilson/hackernews/types"
 )
 
-func UserComments(props types.UserCommentsProps) templ.Component {
+type UserCommentsProps struct {
+	User        string
+	Comments    []client.Item
+	Total       int
+	PerPage     int
+	CurrentPage int
+	StartPage   int
+	TotalPages  int
+	PageNumbers []int
+}
+
+func UserComments(props UserCommentsProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {

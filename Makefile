@@ -1,4 +1,4 @@
-dev: templ css app
+dev: templ css run
 
 templ:
 	templ generate

@@ -3,10 +3,21 @@ package pages
 import (
 	"github.com/joeychilson/hackernews/components"
 	"github.com/joeychilson/hackernews/layouts"
-	"github.com/joeychilson/hackernews/types"
+	"github.com/joeychilson/hackernews/client"
 )
 
-templ Feed(props types.FeedProps) {
+type FeedProps struct {
+	Title       string
+	Stories     []client.Item
+	Total       int
+	PerPage     int
+	CurrentPage int
+	StartPage   int
+	TotalPages  int
+	PageNumbers []int
+}
+
+templ Feed(props FeedProps) {
 	@layouts.Default(props.Title) {
 		<div class="mx-auto max-w-4xl">
 			for _, story := range props.Stories {

@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-
-	"github.com/joeychilson/hackernews/types"
 )
 
 const defaultURL = "https://hacker-news.firebaseio.com/v0/"
@@ -24,7 +22,33 @@ func New() *Client {
 	}
 }
 
-func (c *Client) AskStories(ctx context.Context) ([]int, error) {
+type Item struct {
+	ID          int    `json:"id,omitempty"`
+	Deleted     bool   `json:"deleted,omitempty"`
+	Type        string `json:"type,omitempty"`
+	By          string `json:"by,omitempty"`
+	Time        int64  `json:"time,omitempty"`
+	Text        string `json:"text,omitempty"`
+	Dead        bool   `json:"dead,omitempty"`
+	Parent      int    `json:"parent,omitempty"`
+	Kids        []int  `json:"kids,omitempty"`
+	URL         string `json:"url,omitempty"`
+	Score       int    `json:"score,omitempty"`
+	Title       string `json:"title,omitempty"`
+	Parts       []int  `json:"parts,omitempty"`
+	Descendants int    `json:"descendants,omitempty"`
+	Children    []Item `json:"children,omitempty"`
+}
+
+type User struct {
+	ID        string `json:"id"`
+	Created   int    `json:"created"`
+	Karma     int    `json:"karma"`
+	About     string `json:"about"`
+	Submitted []int  `json:"submitted"`
+}
+
+func (c *Client) GetAskStories(ctx context.Context) ([]int, error) {
 	b, err := c.get(ctx, "askstories.json")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get ask stories: %w", err)
@@ -34,7 +58,7 @@ func (c *Client) AskStories(ctx context.Context) ([]int, error) {
 	return stories, err
 }
 
-func (c *Client) JobsStories(ctx context.Context) ([]int, error) {
+func (c *Client) GetJobsStories(ctx context.Context) ([]int, error) {
 	b, err := c.get(ctx, "jobstories.json")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get job stories: %w", err)
@@ -44,7 +68,7 @@ func (c *Client) JobsStories(ctx context.Context) ([]int, error) {
 	return stories, err
 }
 
-func (c *Client) NewestStories(ctx context.Context) ([]int, error) {
+func (c *Client) GetNewestStories(ctx context.Context) ([]int, error) {
 	b, err := c.get(ctx, "newstories.json")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get newest stories: %w", err)
@@ -54,7 +78,7 @@ func (c *Client) NewestStories(ctx context.Context) ([]int, error) {
 	return stories, err
 }
 
-func (c *Client) ShowStories(ctx context.Context) ([]int, error) {
+func (c *Client) GetShowStories(ctx context.Context) ([]int, error) {
 	b, err := c.get(ctx, "showstories.json")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get show stories: %w", err)
@@ -64,7 +88,7 @@ func (c *Client) ShowStories(ctx context.Context) ([]int, error) {
 	return stories, err
 }
 
-func (c *Client) TopStories(ctx context.Context) ([]int, error) {
+func (c *Client) GetTopStories(ctx context.Context) ([]int, error) {
 	b, err := c.get(ctx, "topstories.json")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get top stories: %w", err)
@@ -74,24 +98,24 @@ func (c *Client) TopStories(ctx context.Context) ([]int, error) {
 	return stories, err
 }
 
-func (c *Client) Item(ctx context.Context, id int) (types.Item, error) {
+func (c *Client) GetItem(ctx context.Context, id int) (Item, error) {
 	path := fmt.Sprintf("item/%d.json", id)
 	b, err := c.get(ctx, path)
 	if err != nil {
-		return types.Item{}, fmt.Errorf("failed to get item: %w", err)
+		return Item{}, fmt.Errorf("failed to get item: %w", err)
 	}
-	item := types.Item{}
+	item := Item{}
 	err = json.Unmarshal(b, &item)
 	return item, err
 }
 
-func (c *Client) User(ctx context.Context, id string) (types.User, error) {
+func (c *Client) GetUser(ctx context.Context, id string) (User, error) {
 	path := fmt.Sprintf("/user/%s.json", id)
 	b, err := c.get(ctx, path)
 	if err != nil {
-		return types.User{}, fmt.Errorf("failed to get user: %w", err)
+		return User{}, fmt.Errorf("failed to get user: %w", err)
 	}
-	user := types.User{}
+	user := User{}
 	err = json.Unmarshal(b, &user)
 	return user, err
 }

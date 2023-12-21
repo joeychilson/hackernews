@@ -6,10 +6,9 @@ import (
 
 	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/pages"
-	"github.com/joeychilson/hackernews/types"
 )
 
-func HandleAsk(client *client.Client) http.HandlerFunc {
+func HandleAsk(c *client.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		pageStr := r.URL.Query().Get("p")
 		page, err := strconv.Atoi(pageStr)
@@ -17,7 +16,7 @@ func HandleAsk(client *client.Client) http.HandlerFunc {
 			page = 1
 		}
 
-		storyIDs, err := client.AskStories(r.Context())
+		storyIDs, err := c.GetAskStories(r.Context())
 		if err != nil {
 			pages.Error().Render(r.Context(), w)
 			return
@@ -32,9 +31,9 @@ func HandleAsk(client *client.Client) http.HandlerFunc {
 			end = len(storyIDs)
 		}
 
-		stories := make([]types.Item, 0, pageSize)
+		stories := make([]client.Item, 0, pageSize)
 		for _, id := range storyIDs[start:end] {
-			story, err := client.Item(r.Context(), id)
+			story, err := c.GetItem(r.Context(), id)
 			if err != nil {
 				pages.Error().Render(r.Context(), w)
 				return
@@ -56,7 +55,7 @@ func HandleAsk(client *client.Client) http.HandlerFunc {
 			pageNumbers = append(pageNumbers, i)
 		}
 
-		props := types.FeedProps{
+		props := pages.FeedProps{
 			Title:       "Ask",
 			Stories:     stories,
 			Total:       len(storyIDs),

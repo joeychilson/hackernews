@@ -5,10 +5,9 @@ import (
 
 	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/pages"
-	"github.com/joeychilson/hackernews/types"
 )
 
-func HandleUser(client *client.Client) http.HandlerFunc {
+func HandleUser(c *client.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 		if id == "" {
@@ -16,7 +15,7 @@ func HandleUser(client *client.Client) http.HandlerFunc {
 			return
 		}
 
-		user, err := client.User(r.Context(), id)
+		user, err := c.GetUser(r.Context(), id)
 		if err != nil {
 			pages.Error().Render(r.Context(), w)
 			return
@@ -27,7 +26,7 @@ func HandleUser(client *client.Client) http.HandlerFunc {
 			return
 		}
 
-		props := types.UserProps{
+		props := pages.UserProps{
 			User: user,
 		}
 

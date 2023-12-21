@@ -7,10 +7,9 @@ import (
 
 	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/pages"
-	"github.com/joeychilson/hackernews/types"
 )
 
-func HandleItem(client *client.Client) http.HandlerFunc {
+func HandleItem(c *client.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 
@@ -20,7 +19,7 @@ func HandleItem(client *client.Client) http.HandlerFunc {
 			return
 		}
 
-		item, err := client.Item(r.Context(), idInt)
+		item, err := c.GetItem(r.Context(), idInt)
 		if err != nil {
 			pages.NotFound().Render(r.Context(), w)
 			return
@@ -31,13 +30,13 @@ func HandleItem(client *client.Client) http.HandlerFunc {
 			return
 		}
 
-		comments, err := getComments(r.Context(), client, item.Kids)
+		comments, err := getComments(r.Context(), c, item.Kids)
 		if err != nil {
 			pages.Error().Render(r.Context(), w)
 			return
 		}
 
-		props := types.ItemProps{
+		props := pages.ItemProps{
 			Item:     item,
 			Comments: comments,
 		}
@@ -46,15 +45,15 @@ func HandleItem(client *client.Client) http.HandlerFunc {
 	}
 }
 
-func getComments(ctx context.Context, client *client.Client, kids []int) ([]types.Item, error) {
-	var comments []types.Item
+func getComments(ctx context.Context, c *client.Client, kids []int) ([]client.Item, error) {
+	var comments []client.Item
 	for _, kid := range kids {
-		comment, err := client.Item(ctx, kid)
+		comment, err := c.GetItem(ctx, kid)
 		if err != nil {
 			continue
 		}
 		if len(comment.Kids) > 0 {
-			children, err := getComments(ctx, client, comment.Kids)
+			children, err := getComments(ctx, c, comment.Kids)
 			if err != nil {
 				continue
 			}

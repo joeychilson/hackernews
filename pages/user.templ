@@ -4,12 +4,16 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/joeychilson/hackernews/layouts"
-	"github.com/joeychilson/hackernews/types"
+	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/components"
+	"github.com/joeychilson/hackernews/layouts"
 )
 
-templ User(props types.UserProps) {
+type UserProps struct {
+	User client.User
+}
+
+templ User(props UserProps) {
 	@layouts.Default(fmt.Sprintf("Profile: %s", props.User.ID)) {
 		<div class="mx-auto max-w-4xl">
 			<div class="bg-white p-4 mb-2 border-r border-b border-l border-gray-200">

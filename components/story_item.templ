@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/joeychilson/hackernews/types"
+	"github.com/joeychilson/hackernews/client"
 )
 
-templ StoryItem(story types.Item) {
+templ StoryItem(story client.Item) {
 	<div class="flex items-center p-4 bg-white border-r border-b border-l border-gray-200">
 		<div class="lg:w-12 w-8 flex justify-center items-center mr-4">
 			<span class="text-sm lg:text-lg font-medium text-orange-500">
@@ -15,7 +15,7 @@ templ StoryItem(story types.Item) {
 			</span>
 		</div>
 		<div class="flex-1">
-			<a href={ templ.URL(story.URL) } class="text-sm lg:text-base font-semibold text-blue-600 hover:text-blue-800">
+			<a href={ templ.URL(story.URL) } class={ "text-sm lg:text-base font-semibold", titleColor(story.Type) }>
 				{ story.Title }
 			</a>
 			<div class="text-sm text-gray-500">
@@ -25,4 +25,13 @@ templ StoryItem(story types.Item) {
 			</div>
 		</div>
 	</div>
+}
+
+func titleColor(storyType string) string {
+	switch storyType {
+	case "job":
+		return "text-green-600 hover:text-green-800"
+	default:
+		return "text-blue-600 hover:text-blue-800"
+	}
 }

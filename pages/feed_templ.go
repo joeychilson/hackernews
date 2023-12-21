@@ -11,12 +11,23 @@ import "io"
 import "bytes"
 
 import (
+	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/components"
 	"github.com/joeychilson/hackernews/layouts"
-	"github.com/joeychilson/hackernews/types"
 )
 
-func Feed(props types.FeedProps) templ.Component {
+type FeedProps struct {
+	Title       string
+	Stories     []client.Item
+	Total       int
+	PerPage     int
+	CurrentPage int
+	StartPage   int
+	TotalPages  int
+	PageNumbers []int
+}
+
+func Feed(props FeedProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {

@@ -7,10 +7,9 @@ import (
 
 	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/pages"
-	"github.com/joeychilson/hackernews/types"
 )
 
-func HandleSubmitted(client *client.Client) http.HandlerFunc {
+func HandleSubmitted(c *client.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 		if id == "" {
@@ -18,7 +17,7 @@ func HandleSubmitted(client *client.Client) http.HandlerFunc {
 			return
 		}
 
-		user, err := client.User(r.Context(), id)
+		user, err := c.GetUser(r.Context(), id)
 		if err != nil {
 			pages.Error().Render(r.Context(), w)
 			return
@@ -29,9 +28,9 @@ func HandleSubmitted(client *client.Client) http.HandlerFunc {
 			return
 		}
 
-		var submitted []types.Item
+		var submitted []client.Item
 		for _, id := range user.Submitted {
-			item, err := client.Item(r.Context(), id)
+			item, err := c.GetItem(r.Context(), id)
 			if err != nil {
 				pages.NotFound().Render(r.Context(), w)
 				return
@@ -73,7 +72,7 @@ func HandleSubmitted(client *client.Client) http.HandlerFunc {
 			pageNumbers = append(pageNumbers, i)
 		}
 
-		props := types.FeedProps{
+		props := pages.FeedProps{
 			Title:       fmt.Sprintf("%s's submissions", user.ID),
 			Stories:     submitted,
 			Total:       len(submitted),
