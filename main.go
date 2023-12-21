@@ -27,7 +27,7 @@ func main() {
 
 	// Redirects to GitHub repo
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "https://www.github.com/joeychilson/hackernews", http.StatusFound)
+		http.Redirect(w, r, "/news", http.StatusFound)
 	})
 
 	// Assets
