@@ -1,7 +1,7 @@
 package types
 
-// HomeProps is the data structure that holds the data for the home page.
-type HomeProps struct {
+// FeedProps is the data structure that holds the data for the feed pages.
+type FeedProps struct {
 	Stories     []Item
 	Total       int
 	PerPage     int

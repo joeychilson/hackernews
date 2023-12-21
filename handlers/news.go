@@ -9,12 +9,7 @@ import (
 	"github.com/joeychilson/hackernews/types"
 )
 
-const (
-	pageSize     = 30
-	visiblePages = 5
-)
-
-func HomePage(client *client.Client) http.HandlerFunc {
+func HandleNews(client *client.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		pageStr := r.URL.Query().Get("p")
 		page, err := strconv.Atoi(pageStr)
@@ -22,7 +17,7 @@ func HomePage(client *client.Client) http.HandlerFunc {
 			page = 1
 		}
 
-		topStoryIDs, err := client.TopStories(r.Context())
+		storyIDs, err := client.TopStories(r.Context())
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -30,24 +25,24 @@ func HomePage(client *client.Client) http.HandlerFunc {
 
 		start := (page - 1) * pageSize
 		end := start + pageSize
-		if start > len(topStoryIDs) {
-			start = len(topStoryIDs)
+		if start > len(storyIDs) {
+			start = len(storyIDs)
 		}
-		if end > len(topStoryIDs) {
-			end = len(topStoryIDs)
+		if end > len(storyIDs) {
+			end = len(storyIDs)
 		}
 
-		topStories := make([]types.Item, 0, pageSize)
-		for _, id := range topStoryIDs[start:end] {
+		stories := make([]types.Item, 0, pageSize)
+		for _, id := range storyIDs[start:end] {
 			story, err := client.GetItem(r.Context(), id)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			topStories = append(topStories, story)
+			stories = append(stories, story)
 		}
 
-		totalPages := len(topStoryIDs)/pageSize + 1
+		totalPages := len(storyIDs)/pageSize + 1
 
 		startPage := max(1, page-(visiblePages/2))
 		if startPage+visiblePages > totalPages {
@@ -61,15 +56,15 @@ func HomePage(client *client.Client) http.HandlerFunc {
 			pageNumbers = append(pageNumbers, i)
 		}
 
-		props := types.HomeProps{
-			Stories:     topStories,
-			Total:       len(topStoryIDs),
+		props := types.FeedProps{
+			Stories:     stories,
+			Total:       len(storyIDs),
 			PerPage:     pageSize,
 			CurrentPage: page,
 			StartPage:   startPage,
 			TotalPages:  totalPages,
 			PageNumbers: pageNumbers,
 		}
-		pages.Home(props).Render(r.Context(), w)
+		pages.Feed(props).Render(r.Context(), w)
 	}
 }

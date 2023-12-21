@@ -6,7 +6,7 @@ import (
 	"github.com/joeychilson/hackernews/types"
 )
 
-templ Home(props types.HomeProps) {
+templ Feed(props types.FeedProps) {
 	@layouts.Default() {
 		<div class="mx-auto max-w-4xl">
 			for _, story := range props.Stories {

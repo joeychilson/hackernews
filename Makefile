@@ -1,6 +1,6 @@
-dev: templates css app
+dev: templ css app
 
-templates:
+templ:
 	templ generate
 
 css:

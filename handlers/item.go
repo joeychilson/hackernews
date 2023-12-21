@@ -10,7 +10,7 @@ import (
 	"github.com/joeychilson/hackernews/types"
 )
 
-func ItemPage(client *client.Client) http.HandlerFunc {
+func HandleItem(client *client.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 

@@ -25,12 +25,21 @@ func main() {
 	router.Use(middleware.Logger)
 	router.Use(middleware.Recoverer)
 
+	// Redirects to GitHub repo
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "https://www.github.com/joeychilson/hackernews", http.StatusFound)
+	})
+
 	// Assets
 	router.Handle("/dist/*", http.FileServer(http.FS(dist)))
 
 	// Pages
-	router.HandleFunc("/", handlers.HomePage(client))
-	router.HandleFunc("/item", handlers.ItemPage(client))
+	router.HandleFunc("/ask", handlers.HandleAsk(client))
+	router.HandleFunc("/item", handlers.HandleItem(client))
+	router.HandleFunc("/jobs", handlers.HandleJobs(client))
+	router.HandleFunc("/newest", handlers.HandleNewest(client))
+	router.HandleFunc("/news", handlers.HandleNews(client))
+	router.HandleFunc("/show", handlers.HandleShow(client))
 
 	// Not Found
 	router.HandleFunc("/*", func(w http.ResponseWriter, r *http.Request) {

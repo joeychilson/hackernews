@@ -24,6 +24,46 @@ func New() *Client {
 	}
 }
 
+func (c *Client) AskStories(ctx context.Context) ([]int, error) {
+	b, err := c.get(ctx, "askstories.json")
+	if err != nil {
+		return nil, fmt.Errorf("failed to get ask stories: %w", err)
+	}
+	var stories []int
+	err = json.Unmarshal(b, &stories)
+	return stories, err
+}
+
+func (c *Client) JobsStories(ctx context.Context) ([]int, error) {
+	b, err := c.get(ctx, "jobstories.json")
+	if err != nil {
+		return nil, fmt.Errorf("failed to get job stories: %w", err)
+	}
+	var stories []int
+	err = json.Unmarshal(b, &stories)
+	return stories, err
+}
+
+func (c *Client) NewestStories(ctx context.Context) ([]int, error) {
+	b, err := c.get(ctx, "newstories.json")
+	if err != nil {
+		return nil, fmt.Errorf("failed to get newest stories: %w", err)
+	}
+	var stories []int
+	err = json.Unmarshal(b, &stories)
+	return stories, err
+}
+
+func (c *Client) ShowStories(ctx context.Context) ([]int, error) {
+	b, err := c.get(ctx, "showstories.json")
+	if err != nil {
+		return nil, fmt.Errorf("failed to get show stories: %w", err)
+	}
+	var stories []int
+	err = json.Unmarshal(b, &stories)
+	return stories, err
+}
+
 func (c *Client) TopStories(ctx context.Context) ([]int, error) {
 	b, err := c.get(ctx, "topstories.json")
 	if err != nil {

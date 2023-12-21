@@ -23,7 +23,7 @@ func Header() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"bg-orange-500 py-2\"><div class=\"flex items-center space-x-8 mx-auto max-w-4xl px-8\"><h1 class=\"text-lg font-semibold text-white hover:underline\"><a href=\"/\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"bg-orange-500 py-2\"><div class=\"flex items-center space-x-8 mx-auto max-w-4xl px-8\"><h1 class=\"text-lg font-semibold text-white hover:underline\"><a href=\"/news\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -32,7 +32,7 @@ func Header() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></h1><nav><ul class=\"flex space-x-4\"><li><a href=\"/new\" class=\"text-white hover:text-gray-200 hover:underline\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></h1><nav><ul class=\"flex space-x-4\"><li><a href=\"/newest\" class=\"text-white hover:text-gray-200 hover:underline\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
