@@ -2,6 +2,7 @@ package types
 
 // FeedProps is the data structure that holds the data for the feed pages.
 type FeedProps struct {
+	Title       string
 	Stories     []Item
 	Total       int
 	PerPage     int
@@ -24,6 +25,7 @@ type UserProps struct {
 
 // UserCommentsProps is the data structure that holds the data for the user comments page.
 type UserCommentsProps struct {
+	User        string
 	Comments    []Item
 	Total       int
 	PerPage     int

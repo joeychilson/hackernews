@@ -57,6 +57,7 @@ func HandleAsk(client *client.Client) http.HandlerFunc {
 		}
 
 		props := types.FeedProps{
+			Title:       "Ask",
 			Stories:     stories,
 			Total:       len(storyIDs),
 			PerPage:     pageSize,

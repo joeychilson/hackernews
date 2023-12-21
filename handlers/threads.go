@@ -85,6 +85,7 @@ func HandleThreads(client *client.Client) http.HandlerFunc {
 		}
 
 		props := types.UserCommentsProps{
+			User:        user.ID,
 			Comments:    threadItems,
 			Total:       len(threadItems),
 			PerPage:     pageSize,

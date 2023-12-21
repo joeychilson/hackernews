@@ -57,6 +57,7 @@ func HandleShow(client *client.Client) http.HandlerFunc {
 		}
 
 		props := types.FeedProps{
+			Title:       "Show",
 			Stories:     stories,
 			Total:       len(storyIDs),
 			PerPage:     pageSize,

@@ -11,6 +11,8 @@ import "io"
 import "bytes"
 
 import (
+	"fmt"
+
 	"github.com/joeychilson/hackernews/components"
 	"github.com/joeychilson/hackernews/layouts"
 	"github.com/joeychilson/hackernews/types"
@@ -56,7 +58,7 @@ func UserComments(props types.UserCommentsProps) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = layouts.Default().Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layouts.Default(fmt.Sprintf("%s's comments", props.User)).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

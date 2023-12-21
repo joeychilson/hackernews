@@ -7,7 +7,7 @@ import (
 )
 
 templ Feed(props types.FeedProps) {
-	@layouts.Default() {
+	@layouts.Default(props.Title) {
 		<div class="mx-auto max-w-4xl">
 			for _, story := range props.Stories {
 				@components.StoryItem(story)

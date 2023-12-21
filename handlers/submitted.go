@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -68,6 +69,7 @@ func HandleSubmitted(client *client.Client) http.HandlerFunc {
 		}
 
 		props := types.FeedProps{
+			Title:       fmt.Sprintf("%s's submissions", user.ID),
 			Stories:     submitted,
 			Total:       len(submitted),
 			PerPage:     pageSize,

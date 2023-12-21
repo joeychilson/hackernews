@@ -57,6 +57,7 @@ func HandleNewest(client *client.Client) http.HandlerFunc {
 		}
 
 		props := types.FeedProps{
+			Title:       "New Links",
 			Stories:     stories,
 			Total:       len(storyIDs),
 			PerPage:     pageSize,

@@ -2,10 +2,16 @@ package layouts
 
 import "github.com/joeychilson/hackernews/components"
 
-templ Default() {
+templ Default(title string) {
 	<html lang="en">
 		<head>
-			<title>Hacker News</title>
+			<title>
+				if title != "" {
+					{ title + " | Hacker News" }
+				} else {
+					{ "Hacker News" }
+				}
+			</title>
 			<link href="/assets/app.css" rel="stylesheet"/>
 		</head>
 		@components.Header()

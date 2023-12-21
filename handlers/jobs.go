@@ -57,6 +57,7 @@ func HandleJobs(client *client.Client) http.HandlerFunc {
 		}
 
 		props := types.FeedProps{
+			Title:       "Jobs",
 			Stories:     stories,
 			Total:       len(storyIDs),
 			PerPage:     pageSize,

@@ -10,7 +10,7 @@ import (
 )
 
 templ User(props types.UserProps) {
-	@layouts.Default() {
+	@layouts.Default(fmt.Sprintf("Profile: %s", props.User.ID)) {
 		<div class="mx-auto max-w-4xl">
 			<div class="bg-white p-4 mb-2 border-r border-b border-l border-gray-200">
 				<div class="mb-2">
