@@ -1,33 +1,38 @@
 # hackernews
 
-This project is aimed at recreating the popular Hacker News using Go and the templ library. 
+A Hacker News clone built with [Go](https://go.dev/), [templ](https://github.com/a-h/templ), and [Tailwind](https://tailwindcss.com/)
 
-It's designed to closely mirror the functionality of hacker news as much with the limitations of the public API.
+<p align="center">
+    <img width="1080" src="https://hckrnws.fly.dev/assets/home_page.png">
+    <img width="1080" src="https://hckrnws.fly.dev/assets/thread.png">
+</p>
 
-The application is a close drop-in replacement for the actual hacker news application with the limitations of the API. 
+## Demo
 
-You can just replace the hacker news url https://news.ycombinator.com/ with the url https://hckrnws.fly.dev/. 
+https://hckrnws.fly.dev/news
 
-Reply links will redirect to the actual hacker news website.
+## Features
 
-### requirements 
+- No JS required
 
-#### install tailwind cli
+## Build Setup
+
+#### Install tailwind cli
 ```bash
 brew install tailwindcss
 ```
 
-#### install templ
+#### Install templ
 ```bash
 go install github.com/a-h/templ/cmd/templ@latest
 ```
 
-#### run dev
+#### Build and run server
 ```bash
 make dev
 ```
 
-#### deploy
+#### Deploy to [Fly](https://fly.io)
 ```bash
 fly launch
 ```
