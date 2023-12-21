@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/handlers"
 	"github.com/joeychilson/hackernews/pages"
@@ -18,37 +16,31 @@ var assets embed.FS
 func main() {
 	client := client.New()
 
-	router := chi.NewRouter()
-
-	router.Use(middleware.RequestID)
-	router.Use(middleware.RealIP)
-	router.Use(middleware.Logger)
-	router.Use(middleware.Recoverer)
+	mux := http.NewServeMux()
 
 	// Redirects to GitHub repo
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			pages.NotFound().Render(r.Context(), w)
+			return
+		}
 		http.Redirect(w, r, "/news", http.StatusFound)
 	})
 
 	// Assets
-	router.Handle("/assets/*", http.FileServer(http.FS(assets)))
+	mux.Handle("/assets/", http.FileServer(http.FS(assets)))
 
 	// Pages
-	router.HandleFunc("/ask", handlers.HandleAsk(client))
-	router.HandleFunc("/item", handlers.HandleItem(client))
-	router.HandleFunc("/jobs", handlers.HandleJobs(client))
-	router.HandleFunc("/newest", handlers.HandleNewest(client))
-	router.HandleFunc("/news", handlers.HandleNews(client))
-	router.HandleFunc("/show", handlers.HandleShow(client))
-	router.HandleFunc("/submitted", handlers.HandleSubmitted(client))
-	router.HandleFunc("/threads", handlers.HandleThreads(client))
-	router.HandleFunc("/user", handlers.HandleUser(client))
-
-	// Not Found
-	router.HandleFunc("/*", func(w http.ResponseWriter, r *http.Request) {
-		pages.NotFound().Render(r.Context(), w)
-	})
+	mux.HandleFunc("/ask", handlers.HandleAsk(client))
+	mux.HandleFunc("/item", handlers.HandleItem(client))
+	mux.HandleFunc("/jobs", handlers.HandleJobs(client))
+	mux.HandleFunc("/newest", handlers.HandleNewest(client))
+	mux.HandleFunc("/news", handlers.HandleNews(client))
+	mux.HandleFunc("/show", handlers.HandleShow(client))
+	mux.HandleFunc("/submitted", handlers.HandleSubmitted(client))
+	mux.HandleFunc("/threads", handlers.HandleThreads(client))
+	mux.HandleFunc("/user", handlers.HandleUser(client))
 
 	fmt.Println("Listening on http://localhost:8080")
-	http.ListenAndServe(":8080", router)
+	http.ListenAndServe(":8080", mux)
 }
