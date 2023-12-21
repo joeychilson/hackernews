@@ -4,7 +4,7 @@ templ:
 	templ generate
 
 css:
-	bun run build
+	tailwindcss -i ./assets/app.css -o ./dist/app.css
 
 app:
 	go run main.go
