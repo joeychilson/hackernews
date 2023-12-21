@@ -43,13 +43,11 @@ func ItemPage(client *client.Client) http.HandlerFunc {
 
 func getComments(ctx context.Context, client *client.Client, kids []int) ([]types.Item, error) {
 	var comments []types.Item
-
 	for _, kid := range kids {
 		comment, err := client.GetItem(ctx, kid)
 		if err != nil {
 			continue
 		}
-
 		if len(comment.Kids) > 0 {
 			children, err := getComments(ctx, client, comment.Kids)
 			if err != nil {
@@ -57,9 +55,7 @@ func getComments(ctx context.Context, client *client.Client, kids []int) ([]type
 			}
 			comment.Children = children
 		}
-
 		comments = append(comments, comment)
 	}
-
 	return comments, nil
 }
