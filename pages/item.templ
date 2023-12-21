@@ -15,7 +15,7 @@ templ Item(props types.ItemProps) {
 		<div class="mx-auto max-w-4xl">
 			<div class="bg-white p-4 mb-2 border-r border-b border-l border-gray-200">
 				<div class="mb-2">
-					<a href="{ArticleLink}" class="text-lg text-orange-500 hover:underline">
+					<a href={ templ.URL(props.Item.URL) } class="text-lg text-orange-500 hover:underline">
 						{ props.Item.Title }
 					</a>
 				</div>
