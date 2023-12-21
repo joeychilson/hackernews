@@ -1,0 +1,25 @@
+package components
+
+import (
+	"strconv"
+
+	"github.com/joeychilson/hackernews/models"
+)
+
+templ StoryItem(story models.Item) {
+	<div class="flex items-center p-4 border-r border-b border-l border-gray-200">
+		<div class="w-16 flex justify-center items-center mr-4">
+			<span class="text-lg font-medium text-orange-500">
+				{ strconv.Itoa(story.Score) }
+			</span>
+		</div>
+		<div class="flex-1">
+			<a href={ templ.URL(story.URL) } class="text-md font-semibold text-blue-600 hover:text-blue-800">
+				{ story.Title }
+			</a>
+			<div class="text-sm text-gray-500">
+				by { story.By } | { strconv.Itoa(story.Time) } | <a href="/story/{story.ID}/comments" class="hover:text-blue-600">{ strconv.Itoa(len(story.Kids)) } comments</a>
+			</div>
+		</div>
+	</div>
+}

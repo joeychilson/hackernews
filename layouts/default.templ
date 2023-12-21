@@ -1,13 +1,16 @@
 package layouts
 
+import "github.com/joeychilson/hackernews/components"
+
 templ Default() {
-  <html lang="en">
-    <head>
-      <title>HackerNews</title>
-      <link href="/dist/app.css" rel="stylesheet" />
-    </head>
-    <body class="bg-neutral-900">
-      { children... }
-    </body>
-  </html>
+	<html lang="en">
+		<head>
+			<title>Hacker News</title>
+			<link href="/dist/app.css" rel="stylesheet"/>
+		</head>
+		@components.Header()
+		<body class="bg-gray-100">
+			{ children... }
+		</body>
+	</html>
 }

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/joeychilson/hackernews/client"
+	"github.com/joeychilson/hackernews/models"
 	"github.com/joeychilson/hackernews/pages"
 )
 
@@ -12,12 +14,32 @@ import (
 var dist embed.FS
 
 func main() {
+	client := client.New()
+
 	mux := http.NewServeMux()
 
 	mux.Handle("/dist/", http.FileServer(http.FS(dist)))
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		pages.Home().Render(r.Context(), w)
+		topStoryIDs, err := client.TopStories(r.Context())
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		topStories := make([]models.Item, 0, 30)
+
+		for _, id := range topStoryIDs[:30] {
+			story, err := client.GetItem(r.Context(), id)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			topStories = append(topStories, story)
+		}
+
+		pages.Home(topStories).Render(r.Context(), w)
 	})
 
 	fmt.Println("Listening on http://localhost:8080")

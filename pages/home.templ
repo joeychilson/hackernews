@@ -1,9 +1,17 @@
 package pages
 
-import "github.com/joeychilson/hackernews/layouts"
+import (
+	"github.com/joeychilson/hackernews/components"
+	"github.com/joeychilson/hackernews/layouts"
+	"github.com/joeychilson/hackernews/models"
+)
 
-templ Home() {
-  @layouts.Default() {
-    <h1 class="text-3xl font-bold underline">Hello, World</h1>
-  }
+templ Home(stories []models.Item) {
+	@layouts.Default() {
+		<div class="mx-auto max-w-4xl">
+			for _, story := range stories {
+				@components.StoryItem(story)
+			}
+		</div>
+	}
 }
