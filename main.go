@@ -12,8 +12,8 @@ import (
 	"github.com/joeychilson/hackernews/pages"
 )
 
-//go:embed dist/*
-var dist embed.FS
+//go:embed assets/*
+var assets embed.FS
 
 func main() {
 	client := client.New()
@@ -31,7 +31,7 @@ func main() {
 	})
 
 	// Assets
-	router.Handle("/dist/*", http.FileServer(http.FS(dist)))
+	router.Handle("/assets/*", http.FileServer(http.FS(assets)))
 
 	// Pages
 	router.HandleFunc("/ask", handlers.HandleAsk(client))
