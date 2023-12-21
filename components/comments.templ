@@ -23,6 +23,9 @@ templ Comments(comments []types.Item, level int) {
 			<p class="text-sm">
 				{ comment.Text }
 			</p>
+			<div class="mt-2">
+				<a href={ templ.URL(fmt.Sprintf("https://news.ycombinator.com/item?id=%v", comment.ID)) } class="underline text-xs text-blue-600">Reply</a>
+			</div>
 		</div>
 		if len(comment.Children) > 0 {
 			@Comments(comment.Children, level+1)

@@ -1,6 +1,7 @@
 package pages
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 
@@ -23,6 +24,9 @@ templ Item(props types.ItemProps) {
 					<span class="text-sm text-gray-600">| by { props.Item.By }</span>
 					<span class="text-sm text-gray-600">| { time.Unix(props.Item.Time, 0).Format("2006-01-02 15:04:05") }</span>
 					<span class="text-sm text-gray-600">| { strconv.Itoa(props.Item.Descendants) } comments</span>
+				</div>
+				<div class="mt-2">
+					<a href={ templ.URL(fmt.Sprintf("https://news.ycombinator.com/item?id=%v", props.Item.ID)) } class="underline text-xs text-blue-600">Reply</a>
 				</div>
 			</div>
 			@components.Comments(props.Comments, 0)

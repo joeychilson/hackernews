@@ -1,18 +1,18 @@
 # hackernews
 
-# requirements 
+## requirements 
 
-## install tailwind cli
+### install tailwind cli
 ```bash
 brew install tailwindcss
 ```
 
-## install templ
+### install templ
 ```bash
 go install github.com/a-h/templ/cmd/templ@latest
 ```
 
-## run dev
+### run dev
 ```bash
 make dev
 ```
