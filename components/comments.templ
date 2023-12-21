@@ -1,0 +1,35 @@
+package components
+
+import (
+	"fmt"
+	"time"
+
+	"github.com/joeychilson/hackernews/types"
+)
+
+templ Comments(comments []types.Item, level int) {
+	for _, comment := range comments {
+		<div
+ 			if level == 0 {
+				class="border-l-4 border-orange-500 bg-white p-4 mb-2"
+			} else {
+				class={ "border-l-4 border-gray-300 bg-gray-50 p-4 mb-2 " }
+				style={ getPadding(level) }
+			}
+		>
+			<div class="mb-2">
+				<span class="text-xs text-gray-600">by { comment.By } | { time.Unix(comment.Time, 0).Format("2006-01-02 15:04:05") }</span>
+			</div>
+			<p class="text-sm">
+				{ comment.Text }
+			</p>
+		</div>
+		if len(comment.Children) > 0 {
+			@Comments(comment.Children, level+1)
+		}
+	}
+}
+
+func getPadding(level int) string {
+	return fmt.Sprintf("margin-left: %vrem;", level)
+}

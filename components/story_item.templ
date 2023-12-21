@@ -5,11 +5,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/joeychilson/hackernews/models"
+	"github.com/joeychilson/hackernews/types"
 )
 
-templ StoryItem(story models.Item) {
-	<div class="flex items-center p-4 border-r border-b border-l border-gray-200">
+templ StoryItem(story types.Item) {
+	<div class="flex items-center p-4 bg-white border-r border-b border-l border-gray-200">
 		<div class="w-16 flex justify-center items-center mr-4">
 			<span class="text-lg font-medium text-orange-500">
 				{ strconv.Itoa(story.Score) }
@@ -20,7 +20,7 @@ templ StoryItem(story models.Item) {
 				{ story.Title }
 			</a>
 			<div class="text-sm text-gray-500">
-				by { story.By } | { time.Unix(story.Time, 0).Format("2006-01-02 15:04:05") } | <a href={ templ.URL(fmt.Sprintf("/story/%v/comments", story.ID)) } class="hover:text-blue-600">{ strconv.Itoa(len(story.Kids)) } comments</a>
+				by { story.By } | { time.Unix(story.Time, 0).Format("2006-01-02 15:04:05") } | <a href={ templ.URL(fmt.Sprintf("/item?id=%v", story.ID)) } class="hover:text-blue-600">{ strconv.Itoa(story.Descendants) } comments</a>
 			</div>
 		</div>
 	</div>

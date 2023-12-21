@@ -15,10 +15,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/joeychilson/hackernews/models"
+	"github.com/joeychilson/hackernews/types"
 )
 
-func StoryItem(story models.Item) templ.Component {
+func StoryItem(story types.Item) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -31,7 +31,7 @@ func StoryItem(story models.Item) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex items-center p-4 border-r border-b border-l border-gray-200\"><div class=\"w-16 flex justify-center items-center mr-4\"><span class=\"text-lg font-medium text-orange-500\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex items-center p-4 bg-white border-r border-b border-l border-gray-200\"><div class=\"w-16 flex justify-center items-center mr-4\"><span class=\"text-lg font-medium text-orange-500\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -99,7 +99,7 @@ func StoryItem(story models.Item) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var10 templ.SafeURL = templ.URL(fmt.Sprintf("/story/%v/comments", story.ID))
+		var templ_7745c5c3_Var10 templ.SafeURL = templ.URL(fmt.Sprintf("/item?id=%v", story.ID))
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var10)))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -108,7 +108,7 @@ func StoryItem(story models.Item) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var11 string = strconv.Itoa(len(story.Kids))
+		var templ_7745c5c3_Var11 string = strconv.Itoa(story.Descendants)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

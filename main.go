@@ -30,6 +30,7 @@ func main() {
 
 	// Pages
 	router.HandleFunc("/", handlers.HomePage(client))
+	router.HandleFunc("/item", handlers.ItemPage(client))
 
 	// Not Found
 	router.HandleFunc("/*", func(w http.ResponseWriter, r *http.Request) {

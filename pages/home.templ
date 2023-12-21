@@ -3,10 +3,10 @@ package pages
 import (
 	"github.com/joeychilson/hackernews/components"
 	"github.com/joeychilson/hackernews/layouts"
-	"github.com/joeychilson/hackernews/models"
+	"github.com/joeychilson/hackernews/types"
 )
 
-templ Home(props models.HomeProps) {
+templ Home(props types.HomeProps) {
 	@layouts.Default() {
 		<div class="mx-auto max-w-4xl">
 			for _, story := range props.Stories {

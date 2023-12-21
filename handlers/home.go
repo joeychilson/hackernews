@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/joeychilson/hackernews/client"
-	"github.com/joeychilson/hackernews/models"
 	"github.com/joeychilson/hackernews/pages"
+	"github.com/joeychilson/hackernews/types"
 )
 
 const (
@@ -37,7 +37,7 @@ func HomePage(client *client.Client) http.HandlerFunc {
 			end = len(topStoryIDs)
 		}
 
-		topStories := make([]models.Item, 0, pageSize)
+		topStories := make([]types.Item, 0, pageSize)
 		for _, id := range topStoryIDs[start:end] {
 			story, err := client.GetItem(r.Context(), id)
 			if err != nil {
@@ -61,7 +61,7 @@ func HomePage(client *client.Client) http.HandlerFunc {
 			pageNumbers = append(pageNumbers, i)
 		}
 
-		props := models.HomeProps{
+		props := types.HomeProps{
 			Stories:     topStories,
 			Total:       len(topStoryIDs),
 			PerPage:     pageSize,

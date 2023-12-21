@@ -1,0 +1,31 @@
+package pages
+
+import (
+	"strconv"
+	"time"
+
+	"github.com/joeychilson/hackernews/layouts"
+	"github.com/joeychilson/hackernews/types"
+	"github.com/joeychilson/hackernews/components"
+)
+
+templ Item(props types.ItemProps) {
+	@layouts.Default() {
+		<div class="mx-auto max-w-4xl">
+			<div class="bg-white p-4 mb-2 border-r border-b border-l border-gray-200">
+				<div class="mb-2">
+					<a href="{ArticleLink}" class="text-lg text-orange-500 hover:underline">
+						{ props.Item.Title }
+					</a>
+				</div>
+				<div class="mb-4">
+					<span class="text-sm text-gray-600">{ strconv.Itoa(props.Item.Score) } points</span>
+					<span class="text-sm text-gray-600">| by { props.Item.By }</span>
+					<span class="text-sm text-gray-600">| { time.Unix(props.Item.Time, 0).Format("2006-01-02 15:04:05") }</span>
+					<span class="text-sm text-gray-600">| { strconv.Itoa(props.Item.Descendants) } comments</span>
+				</div>
+			</div>
+			@components.Comments(props.Comments, 0)
+		</div>
+	}
+}

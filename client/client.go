@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/joeychilson/hackernews/models"
+	"github.com/joeychilson/hackernews/types"
 )
 
 const defaultURL = "https://hacker-news.firebaseio.com/v0/"
@@ -34,13 +34,13 @@ func (c *Client) TopStories(ctx context.Context) ([]int, error) {
 	return stories, err
 }
 
-func (c *Client) GetItem(ctx context.Context, id int) (models.Item, error) {
+func (c *Client) GetItem(ctx context.Context, id int) (types.Item, error) {
 	path := fmt.Sprintf("item/%d.json", id)
 	b, err := c.get(ctx, path)
 	if err != nil {
-		return models.Item{}, fmt.Errorf("while getting item: %w", err)
+		return types.Item{}, fmt.Errorf("while getting item: %w", err)
 	}
-	item := models.Item{}
+	item := types.Item{}
 	err = json.Unmarshal(b, &item)
 	return item, err
 }
