@@ -14,7 +14,7 @@ const (
 	visiblePages = 5
 )
 
-func HandleHome(client *client.Client) http.HandlerFunc {
+func HomePage(client *client.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		pageStr := r.URL.Query().Get("p")
 		page, err := strconv.Atoi(pageStr)

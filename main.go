@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/joeychilson/hackernews/client"
 	"github.com/joeychilson/hackernews/handlers"
 )
@@ -15,11 +17,16 @@ var dist embed.FS
 func main() {
 	client := client.New()
 
-	mux := http.NewServeMux()
+	router := chi.NewRouter()
 
-	mux.Handle("/dist/", http.FileServer(http.FS(dist)))
-	mux.HandleFunc("/", handlers.HandleHome(client))
+	router.Use(middleware.RequestID)
+	router.Use(middleware.RealIP)
+	router.Use(middleware.Logger)
+	router.Use(middleware.Recoverer)
+
+	router.Handle("/dist/*", http.FileServer(http.FS(dist)))
+	router.HandleFunc("/", handlers.HomePage(client))
 
 	fmt.Println("Listening on http://localhost:8080")
-	http.ListenAndServe(":8080", mux)
+	http.ListenAndServe(":8080", router)
 }
