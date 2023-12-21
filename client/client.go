@@ -74,15 +74,26 @@ func (c *Client) TopStories(ctx context.Context) ([]int, error) {
 	return stories, err
 }
 
-func (c *Client) GetItem(ctx context.Context, id int) (types.Item, error) {
+func (c *Client) Item(ctx context.Context, id int) (types.Item, error) {
 	path := fmt.Sprintf("item/%d.json", id)
 	b, err := c.get(ctx, path)
 	if err != nil {
-		return types.Item{}, fmt.Errorf("while getting item: %w", err)
+		return types.Item{}, fmt.Errorf("failed to get item: %w", err)
 	}
 	item := types.Item{}
 	err = json.Unmarshal(b, &item)
 	return item, err
+}
+
+func (c *Client) User(ctx context.Context, id string) (types.User, error) {
+	path := fmt.Sprintf("/user/%s.json", id)
+	b, err := c.get(ctx, path)
+	if err != nil {
+		return types.User{}, fmt.Errorf("failed to get user: %w", err)
+	}
+	user := types.User{}
+	err = json.Unmarshal(b, &user)
+	return user, err
 }
 
 func (c *Client) get(ctx context.Context, path string) ([]byte, error) {

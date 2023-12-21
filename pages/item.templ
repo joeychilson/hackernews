@@ -21,7 +21,7 @@ templ Item(props types.ItemProps) {
 				</div>
 				<div class="mb-4">
 					<span class="text-sm text-gray-600">{ strconv.Itoa(props.Item.Score) } points</span>
-					<span class="text-sm text-gray-600">| by { props.Item.By }</span>
+					<span class="text-sm text-gray-600">| by <a href={ templ.URL(fmt.Sprintf("/user?id=%v", props.Item.By)) } class="hover:text-blue-600">{ props.Item.By }</a> </span>
 					<span class="text-sm text-gray-600">| { time.Unix(props.Item.Time, 0).Format("2006-01-02 15:04:05") }</span>
 					<span class="text-sm text-gray-600">| { strconv.Itoa(props.Item.Descendants) } comments</span>
 				</div>

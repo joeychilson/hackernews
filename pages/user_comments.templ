@@ -1,0 +1,16 @@
+package pages
+
+import (
+	"github.com/joeychilson/hackernews/components"
+	"github.com/joeychilson/hackernews/layouts"
+	"github.com/joeychilson/hackernews/types"
+)
+
+templ UserComments(props types.UserCommentsProps) {
+	@layouts.Default() {
+		<div class="mx-auto max-w-4xl">
+			@components.Comments(props.Comments, 0)
+			@components.Pagination(props.Total, props.PerPage, props.CurrentPage, props.StartPage, props.TotalPages, props.PageNumbers)
+		</div>
+	}
+}

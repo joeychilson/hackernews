@@ -20,7 +20,7 @@ func HandleItem(client *client.Client) http.HandlerFunc {
 			return
 		}
 
-		item, err := client.GetItem(r.Context(), idInt)
+		item, err := client.Item(r.Context(), idInt)
 		if err != nil {
 			pages.NotFound().Render(r.Context(), w)
 			return
@@ -44,7 +44,7 @@ func HandleItem(client *client.Client) http.HandlerFunc {
 func getComments(ctx context.Context, client *client.Client, kids []int) ([]types.Item, error) {
 	var comments []types.Item
 	for _, kid := range kids {
-		comment, err := client.GetItem(ctx, kid)
+		comment, err := client.Item(ctx, kid)
 		if err != nil {
 			continue
 		}

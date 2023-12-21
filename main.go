@@ -40,6 +40,9 @@ func main() {
 	router.HandleFunc("/newest", handlers.HandleNewest(client))
 	router.HandleFunc("/news", handlers.HandleNews(client))
 	router.HandleFunc("/show", handlers.HandleShow(client))
+	router.HandleFunc("/submitted", handlers.HandleSubmitted(client))
+	router.HandleFunc("/threads", handlers.HandleThreads(client))
+	router.HandleFunc("/user", handlers.HandleUser(client))
 
 	// Not Found
 	router.HandleFunc("/*", func(w http.ResponseWriter, r *http.Request) {

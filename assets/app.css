@@ -685,10 +685,6 @@ video {
   border-right-width: 1px;
 }
 
-.border-t {
-  border-top-width: 1px;
-}
-
 .border-gray-200 {
   --tw-border-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
@@ -850,9 +846,9 @@ video {
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-orange-500:hover {
+.hover\:bg-orange-400:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(249 115 22 / var(--tw-bg-opacity));
+  background-color: rgb(251 146 60 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-orange-600:hover {

@@ -6,7 +6,7 @@ import (
 )
 
 templ Pagination(total int, perPage int, currentPage int, startPage int, totalPages int, pageNumbers []int) {
-	<div class="flex justify-between items-center px-4 py-3 border-t border-gray-200 sm:px-6">
+	<div class="flex justify-between items-center px-4 py-3 sm:px-6">
 		<div class="sm:flex-1 sm:flex sm:items-center sm:justify-between">
 			<div>
 				<p class="text-sm text-gray-700">
@@ -34,7 +34,7 @@ templ Pagination(total int, perPage int, currentPage int, startPage int, totalPa
 					for _, num := range pageNumbers {
 						<a
  							href={ templ.URL(fmt.Sprintf("?p=%v", num)) }
- 							class={ "px-4 py-2 border border-gray-300 text-gray-700 hover:bg-orange-500 hover:text-white", templ.KV("bg-orange-500 text-white", num == currentPage) }
+ 							class={ "px-4 py-2 border border-gray-300 text-gray-700 hover:bg-orange-400 hover:text-white", templ.KV("bg-orange-500 text-white", num == currentPage) }
 						>
 							{ strconv.Itoa(num) }
 						</a>

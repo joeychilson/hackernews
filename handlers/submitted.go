@@ -9,40 +9,51 @@ import (
 	"github.com/joeychilson/hackernews/types"
 )
 
-func HandleJobs(client *client.Client) http.HandlerFunc {
+func HandleSubmitted(client *client.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		id := r.URL.Query().Get("id")
+		if id == "" {
+			http.Error(w, "missing id", http.StatusBadRequest)
+			return
+		}
+
+		user, err := client.User(r.Context(), id)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		var submitted []types.Item
+		for _, id := range user.Submitted {
+			item, err := client.Item(r.Context(), id)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			if item.Type != "story" {
+				continue
+			}
+			submitted = append(submitted, item)
+		}
+
 		pageStr := r.URL.Query().Get("p")
 		page, err := strconv.Atoi(pageStr)
 		if err != nil || page < 1 {
 			page = 1
 		}
 
-		storyIDs, err := client.JobsStories(r.Context())
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
 		start := (page - 1) * pageSize
 		end := start + pageSize
-		if start > len(storyIDs) {
-			start = len(storyIDs)
+		if start > len(submitted) {
+			start = len(submitted)
 		}
-		if end > len(storyIDs) {
-			end = len(storyIDs)
-		}
-
-		stories := make([]types.Item, 0, pageSize)
-		for _, id := range storyIDs[start:end] {
-			story, err := client.Item(r.Context(), id)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			stories = append(stories, story)
+		if end > len(submitted) {
+			end = len(submitted)
 		}
 
-		totalPages := len(stories)/pageSize + 1
+		submitted = submitted[start:end]
+
+		totalPages := len(submitted)/pageSize + 1
 
 		startPage := max(1, page-(visiblePages/2))
 		if startPage+visiblePages > totalPages {
@@ -57,8 +68,8 @@ func HandleJobs(client *client.Client) http.HandlerFunc {
 		}
 
 		props := types.FeedProps{
-			Stories:     stories,
-			Total:       len(storyIDs),
+			Stories:     submitted,
+			Total:       len(submitted),
 			PerPage:     pageSize,
 			CurrentPage: page,
 			StartPage:   startPage,

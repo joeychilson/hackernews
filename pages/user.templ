@@ -1,0 +1,35 @@
+package pages
+
+import (
+	"fmt"
+	"time"
+	"strconv"
+
+	"github.com/joeychilson/hackernews/layouts"
+	"github.com/joeychilson/hackernews/types"
+)
+
+templ User(props types.UserProps) {
+	@layouts.Default() {
+		<div class="mx-auto max-w-4xl">
+			<div class="bg-white p-4 mb-2 border-r border-b border-l border-gray-200">
+				<div class="mb-2">
+					<a href="{ArticleLink}" class="text-lg text-orange-500 hover:underline">
+						{ props.User.ID }
+					</a>
+				</div>
+				<div class="mb-4">
+					<span class="text-sm text-gray-600">{ strconv.Itoa(props.User.Karma) } karma</span>
+					<span class="text-sm text-gray-600">| { time.Unix(int64(props.User.Created), 0).Format("2006-01-02 15:04:05") }</span>
+					<span class="text-sm text-gray-600">| { strconv.Itoa(len(props.User.Submitted)) } submitted</span>
+				</div>
+				<div class="mt-2">
+					<a href={ templ.URL(fmt.Sprintf("/submitted?id=%v", props.User.ID)) } class="underline text-blue-600">submitted</a>
+				</div>
+				<div class="mt-2">
+					<a href={ templ.URL(fmt.Sprintf("/threads?id=%v", props.User.ID)) } class="underline text-blue-600">comments</a>
+				</div>
+			</div>
+		</div>
+	}
+}

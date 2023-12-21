@@ -34,7 +34,7 @@ func HandleNewest(client *client.Client) http.HandlerFunc {
 
 		stories := make([]types.Item, 0, pageSize)
 		for _, id := range storyIDs[start:end] {
-			story, err := client.GetItem(r.Context(), id)
+			story, err := client.Item(r.Context(), id)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return

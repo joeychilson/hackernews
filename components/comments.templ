@@ -18,7 +18,10 @@ templ Comments(comments []types.Item, level int) {
 			}
 		>
 			<div class="mb-2">
-				<span class="text-xs text-gray-600">by { comment.By } | { time.Unix(comment.Time, 0).Format("2006-01-02 15:04:05") }</span>
+				<span class="text-xs text-gray-600">
+					by <a href={ templ.URL(fmt.Sprintf("/user?id=%v", comment.By)) } class="hover:text-blue-600">{ comment.By }</a>
+					| { time.Unix(comment.Time, 0).Format("2006-01-02 15:04:05") }
+				</span>
 			</div>
 			<p class="text-sm">
 				{ comment.Text }

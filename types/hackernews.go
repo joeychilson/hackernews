@@ -17,3 +17,11 @@ type Item struct {
 	Descendants int    `json:"descendants,omitempty"`
 	Children    []Item `json:"children,omitempty"`
 }
+
+type User struct {
+	ID        string `json:"id"`
+	Created   int    `json:"created"`
+	Karma     int    `json:"karma"`
+	About     string `json:"about"`
+	Submitted []int  `json:"submitted"`
+}

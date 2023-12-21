@@ -28,7 +28,7 @@ func Pagination(total int, perPage int, currentPage int, startPage int, totalPag
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex justify-between items-center px-4 py-3 border-t border-gray-200 sm:px-6\"><div class=\"sm:flex-1 sm:flex sm:items-center sm:justify-between\"><div><p class=\"text-sm text-gray-700\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex justify-between items-center px-4 py-3 sm:px-6\"><div class=\"sm:flex-1 sm:flex sm:items-center sm:justify-between\"><div><p class=\"text-sm text-gray-700\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -140,7 +140,7 @@ func Pagination(total int, perPage int, currentPage int, startPage int, totalPag
 			return templ_7745c5c3_Err
 		}
 		for _, num := range pageNumbers {
-			var templ_7745c5c3_Var13 = []any{"px-4 py-2 border border-gray-300 text-gray-700 hover:bg-orange-500 hover:text-white", templ.KV("bg-orange-500 text-white", num == currentPage)}
+			var templ_7745c5c3_Var13 = []any{"px-4 py-2 border border-gray-300 text-gray-700 hover:bg-orange-400 hover:text-white", templ.KV("bg-orange-500 text-white", num == currentPage)}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
