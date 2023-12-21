@@ -20,7 +20,7 @@ templ StoryItem(story types.Item) {
 			</a>
 			<div class="text-sm text-gray-500">
 				by <a href={ templ.URL(fmt.Sprintf("/user?id=%v", story.By)) } class="hover:text-blue-600">{ story.By }</a>
-				| { timeAgo(story.Time) }
+				| { TimeAgo(story.Time) }
 				| <a href={ templ.URL(fmt.Sprintf("/item?id=%v", story.ID)) } class="hover:text-blue-600">{ strconv.Itoa(story.Descendants) } comments</a>
 			</div>
 		</div>

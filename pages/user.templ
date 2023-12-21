@@ -2,11 +2,11 @@ package pages
 
 import (
 	"fmt"
-	"time"
 	"strconv"
 
 	"github.com/joeychilson/hackernews/layouts"
 	"github.com/joeychilson/hackernews/types"
+	"github.com/joeychilson/hackernews/components"
 )
 
 templ User(props types.UserProps) {
@@ -20,7 +20,7 @@ templ User(props types.UserProps) {
 				</div>
 				<div class="mb-4">
 					<span class="text-sm text-gray-600">{ strconv.Itoa(props.User.Karma) } karma</span>
-					<span class="text-sm text-gray-600">| { time.Unix(int64(props.User.Created), 0).Format("2006-01-02 15:04:05") }</span>
+					<span class="text-sm text-gray-600">| { components.TimeAgo(int64(props.User.Created)) }</span>
 					<span class="text-sm text-gray-600">| { strconv.Itoa(len(props.User.Submitted)) } submitted</span>
 				</div>
 				<div class="mb-4">

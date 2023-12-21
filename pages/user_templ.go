@@ -13,8 +13,8 @@ import "bytes"
 import (
 	"fmt"
 	"strconv"
-	"time"
 
+	"github.com/joeychilson/hackernews/components"
 	"github.com/joeychilson/hackernews/layouts"
 	"github.com/joeychilson/hackernews/types"
 )
@@ -83,7 +83,7 @@ func User(props types.UserProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var8 string = time.Unix(int64(props.User.Created), 0).Format("2006-01-02 15:04:05")
+			var templ_7745c5c3_Var8 string = components.TimeAgo(int64(props.User.Created))
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err

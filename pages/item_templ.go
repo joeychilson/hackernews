@@ -13,7 +13,6 @@ import "bytes"
 import (
 	"fmt"
 	"strconv"
-	"time"
 
 	"github.com/joeychilson/hackernews/components"
 	"github.com/joeychilson/hackernews/layouts"
@@ -111,7 +110,7 @@ func Item(props types.ItemProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var11 string = time.Unix(props.Item.Time, 0).Format("2006-01-02 15:04:05")
+			var templ_7745c5c3_Var11 string = components.TimeAgo(int64(props.Item.Time))
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err

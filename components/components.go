@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func timeAgo(postTime int64) string {
+func TimeAgo(postTime int64) string {
 	now := time.Now()
 	postTimeUTC := time.Unix(postTime, 0)
 	duration := now.Sub(postTimeUTC)

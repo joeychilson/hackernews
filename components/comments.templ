@@ -19,7 +19,7 @@ templ Comments(comments []types.Item, level int) {
 			<div class="mb-2">
 				<span class="text-xs text-gray-600">
 					by <a href={ templ.URL(fmt.Sprintf("/user?id=%v", comment.By)) } class="hover:text-blue-600">{ comment.By }</a>
-					| { timeAgo(comment.Time) }
+					| { TimeAgo(comment.Time) }
 				</span>
 			</div>
 			<p class="text-sm word-wrap break-words overflow-wrap break-word">
