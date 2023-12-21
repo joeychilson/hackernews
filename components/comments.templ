@@ -23,7 +23,7 @@ templ Comments(comments []types.Item, level int) {
 					| { time.Unix(comment.Time, 0).Format("2006-01-02 15:04:05") }
 				</span>
 			</div>
-			<p class="text-sm">
+			<p class="text-sm word-wrap break-words overflow-wrap break-word">
 				{ comment.Text }
 			</p>
 			<div class="mt-2">
