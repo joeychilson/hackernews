@@ -23,12 +23,17 @@ templ Item(props ItemProps) {
 						{ props.Item.Title }
 					</a>
 				</div>
-				<div class="mb-4">
+				<div class="mb-2">
 					<span class="text-sm text-gray-600">{ strconv.Itoa(props.Item.Score) } points</span>
 					<span class="text-sm text-gray-600">| by <a href={ templ.URL(fmt.Sprintf("/user?id=%v", props.Item.By)) } class="hover:text-blue-600">{ props.Item.By }</a> </span>
 					<span class="text-sm text-gray-600">| { components.TimeAgo(int64(props.Item.Time)) }</span>
 					<span class="text-sm text-gray-600">| { strconv.Itoa(props.Item.Descendants) } comments</span>
 				</div>
+				if props.Item.Text != "" {
+					<div class="text-sm word-wrap break-words overflow-wrap break-word">
+						@components.UnescapedText(props.Item.Text)
+					</div>
+				}
 				<div class="mt-2">
 					<a href={ templ.URL(fmt.Sprintf("https://news.ycombinator.com/item?id=%v", props.Item.ID)) } class="underline text-xs text-blue-600">Reply</a>
 				</div>

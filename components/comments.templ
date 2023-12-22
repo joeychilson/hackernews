@@ -7,6 +7,13 @@ import (
 )
 
 templ Comments(comments []hackernews.Item, level int) {
+	<style type="text/css">
+		p {
+			padding-top: 0.25rem;
+			font-size: 0.875rem;
+			line-height: 1.25rem;
+		}
+	</style>
 	for _, comment := range comments {
 		<div
  			if level == 0 {
@@ -23,7 +30,7 @@ templ Comments(comments []hackernews.Item, level int) {
 				</span>
 			</div>
 			<p class="text-sm word-wrap break-words overflow-wrap break-word">
-				{ comment.Text }
+				@UnescapedText(comment.Text)
 			</p>
 			<div class="mt-2">
 				<a href={ templ.URL(fmt.Sprintf("https://news.ycombinator.com/item?id=%v", comment.ID)) } class="underline text-xs text-blue-600">Reply</a>
