@@ -28,7 +28,7 @@ func HandleSubmitted(c *hackernews.Client) http.HandlerFunc {
 			return
 		}
 
-		var submitted []hackernews.Item
+		var submitted []*hackernews.Item
 		for _, id := range user.Submitted {
 			item, err := c.GetItem(r.Context(), id)
 			if err != nil {

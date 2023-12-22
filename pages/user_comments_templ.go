@@ -20,7 +20,7 @@ import (
 
 type UserCommentsProps struct {
 	User        string
-	Comments    []hackernews.Item
+	Comments    []*hackernews.Item
 	Total       int
 	PerPage     int
 	CurrentPage int

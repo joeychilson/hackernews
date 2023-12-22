@@ -20,7 +20,7 @@ import (
 )
 
 type UserProps struct {
-	User hackernews.User
+	User *hackernews.User
 }
 
 func User(props UserProps) templ.Component {

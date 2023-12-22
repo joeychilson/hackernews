@@ -10,8 +10,8 @@ import (
 )
 
 type ItemProps struct {
-	Item     hackernews.Item
-	Comments []hackernews.Item
+	Item     *hackernews.Item
+	Comments []*hackernews.Item
 }
 
 templ Item(props ItemProps) {

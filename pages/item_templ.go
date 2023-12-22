@@ -20,8 +20,8 @@ import (
 )
 
 type ItemProps struct {
-	Item     hackernews.Item
-	Comments []hackernews.Item
+	Item     *hackernews.Item
+	Comments []*hackernews.Item
 }
 
 func Item(props ItemProps) templ.Component {

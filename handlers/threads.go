@@ -27,7 +27,7 @@ func HandleThreads(c *hackernews.Client) http.HandlerFunc {
 			return
 		}
 
-		var threads []hackernews.Item
+		var threads []*hackernews.Item
 		for _, id := range user.Submitted {
 			item, err := c.GetItem(r.Context(), id)
 			if err != nil {
@@ -56,7 +56,7 @@ func HandleThreads(c *hackernews.Client) http.HandlerFunc {
 		}
 		threads = threads[start:end]
 
-		threadItems := make([]hackernews.Item, 0, len(threads))
+		threadItems := make([]*hackernews.Item, 0, len(threads))
 		for _, thread := range threads {
 			item, err := c.GetItem(r.Context(), thread.ID)
 			if err != nil {
@@ -64,7 +64,7 @@ func HandleThreads(c *hackernews.Client) http.HandlerFunc {
 				return
 			}
 
-			comments, err := getComments(r.Context(), c, item.Kids)
+			comments, err := c.Comments(r.Context(), item.Kids)
 			if err != nil {
 				pages.Error().Render(r.Context(), w)
 				return

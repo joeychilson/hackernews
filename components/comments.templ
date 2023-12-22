@@ -6,7 +6,7 @@ import (
 	"github.com/joeychilson/hackernews/pkg/hackernews"
 )
 
-templ Comments(comments []hackernews.Item, level int) {
+templ Comments(comments []*hackernews.Item, level int) {
 	for _, comment := range comments {
 		<div
  			if level == 0 {
