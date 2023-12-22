@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 	"strconv"
+	"sync"
 
 	"github.com/joeychilson/hackernews/pages"
 	"github.com/joeychilson/hackernews/pkg/hackernews"
@@ -11,6 +12,7 @@ import (
 func HandleNews(c *hackernews.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		pageStr := r.URL.Query().Get("p")
+
 		page, err := strconv.Atoi(pageStr)
 		if err != nil || page < 1 {
 			page = 1
@@ -24,22 +26,29 @@ func HandleNews(c *hackernews.Client) http.HandlerFunc {
 
 		start := (page - 1) * pageSize
 		end := start + pageSize
-		if start > len(storyIDs) {
-			start = len(storyIDs)
-		}
 		if end > len(storyIDs) {
 			end = len(storyIDs)
 		}
 
-		stories := make([]hackernews.Item, 0, pageSize)
-		for _, id := range storyIDs[start:end] {
-			story, err := c.GetItem(r.Context(), id)
-			if err != nil {
-				pages.NotFound().Render(r.Context(), w)
-				return
-			}
-			stories = append(stories, story)
+		paginatedIDs := storyIDs[start:end]
+
+		var wg sync.WaitGroup
+
+		stories := make([]hackernews.Item, len(paginatedIDs))
+		for i, id := range paginatedIDs {
+			wg.Add(1)
+			go func(i, id int) {
+				defer wg.Done()
+
+				story, err := c.GetItem(r.Context(), id)
+				if err != nil {
+					return
+				}
+
+				stories[i] = story
+			}(i, id)
 		}
+		wg.Wait()
 
 		totalPages := len(storyIDs)/pageSize + 1
 
@@ -47,7 +56,6 @@ func HandleNews(c *hackernews.Client) http.HandlerFunc {
 		if startPage+visiblePages > totalPages {
 			startPage = max(1, totalPages-visiblePages+1)
 		}
-
 		endPage := min(startPage+visiblePages-1, totalPages)
 
 		pageNumbers := make([]int, 0, endPage-startPage+1)
