@@ -7,13 +7,6 @@ import (
 )
 
 templ Comments(comments []hackernews.Item, level int) {
-	<style type="text/css">
-		p {
-			padding-top: 0.25rem;
-			font-size: 0.875rem;
-			line-height: 1.25rem;
-		}
-	</style>
 	for _, comment := range comments {
 		<div
  			if level == 0 {

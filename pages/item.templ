@@ -16,6 +16,13 @@ type ItemProps struct {
 
 templ Item(props ItemProps) {
 	@layouts.Default(props.Item.Title) {
+		<style type="text/css">
+			p {
+				padding-top: 0.25rem;
+				font-size: 0.875rem;
+				line-height: 1.25rem;
+			}
+		</style>
 		<div class="mx-auto max-w-4xl">
 			<div class="bg-white p-4 mb-2 border-r border-b border-l border-gray-200">
 				<div class="mb-2">
