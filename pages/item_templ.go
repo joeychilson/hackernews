@@ -48,7 +48,7 @@ func Item(props ItemProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			templ_7745c5c3_Var3 := `
-			p {
+			p, code, pre {
 				padding-top: 0.25rem;
 				font-size: 0.875rem;
 				line-height: 1.25rem;
