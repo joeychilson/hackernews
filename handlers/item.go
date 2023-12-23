@@ -18,7 +18,7 @@ func HandleItem(c *hackernews.Client) http.HandlerFunc {
 			return
 		}
 
-		item, err := c.GetItem(r.Context(), idInt)
+		item, err := c.Item(r.Context(), idInt)
 		if err != nil {
 			pages.NotFound().Render(r.Context(), w)
 			return

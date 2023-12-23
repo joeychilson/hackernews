@@ -116,7 +116,7 @@ func (c *Client) TopStoryIDs(ctx context.Context) ([]int, error) {
 	return stories, nil
 }
 
-func (c *Client) GetItem(ctx context.Context, id int) (*Item, error) {
+func (c *Client) Item(ctx context.Context, id int) (*Item, error) {
 	path := fmt.Sprintf("item/%d.json", id)
 	b, err := c.get(ctx, path)
 	if err != nil {
@@ -131,7 +131,7 @@ func (c *Client) GetItem(ctx context.Context, id int) (*Item, error) {
 	return item, nil
 }
 
-func (c *Client) GetUser(ctx context.Context, id string) (*User, error) {
+func (c *Client) User(ctx context.Context, id string) (*User, error) {
 	path := fmt.Sprintf("/user/%s.json", id)
 	b, err := c.get(ctx, path)
 	if err != nil {
@@ -159,7 +159,7 @@ func (c *Client) Stories(ctx context.Context, storyIDs []int) ([]*Item, error) {
 		wg.Add(1)
 		go func(i, id int) {
 			defer wg.Done()
-			story, e := c.GetItem(ctx, id)
+			story, e := c.Item(ctx, id)
 			if e != nil {
 				errOnce.Do(func() {
 					err = e
@@ -190,7 +190,7 @@ func (c *Client) Comments(ctx context.Context, commentIDs []int) ([]*Item, error
 		wg.Add(1)
 		go func(i, id int) {
 			defer wg.Done()
-			comment, e := c.GetItem(ctx, id)
+			comment, e := c.Item(ctx, id)
 			if e != nil {
 				errOnce.Do(func() {
 					err = e

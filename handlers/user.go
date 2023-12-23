@@ -15,7 +15,7 @@ func HandleUser(c *hackernews.Client) http.HandlerFunc {
 			return
 		}
 
-		user, err := c.GetUser(r.Context(), id)
+		user, err := c.User(r.Context(), id)
 		if err != nil {
 			pages.Error().Render(r.Context(), w)
 			return

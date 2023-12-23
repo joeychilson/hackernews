@@ -196,19 +196,15 @@ func borderColor(deleted bool, level int) string {
 	case 0:
 		return "border-orange-500"
 	case 1:
-		return "border-gray-800"
-	case 2:
-		return "border-gray-700"
-	case 3:
-		return "border-gray-600"
-	case 4:
 		return "border-gray-500"
-	case 5:
+	case 2:
 		return "border-gray-400"
-	case 6:
+	case 3:
 		return "border-gray-300"
-	default:
+	case 4:
 		return "border-gray-200"
+	default:
+		return "border-gray-100"
 	}
 }
 

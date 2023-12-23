@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"sync"
 
 	"github.com/joeychilson/hackernews/pages"
 	"github.com/joeychilson/hackernews/pkg/hackernews"
@@ -17,7 +18,7 @@ func HandleSubmitted(c *hackernews.Client) http.HandlerFunc {
 			return
 		}
 
-		user, err := c.GetUser(r.Context(), id)
+		user, err := c.User(r.Context(), id)
 		if err != nil {
 			pages.Error().Render(r.Context(), w)
 			return
@@ -28,17 +29,39 @@ func HandleSubmitted(c *hackernews.Client) http.HandlerFunc {
 			return
 		}
 
-		var submitted []*hackernews.Item
+		var (
+			wg           sync.WaitGroup
+			errOnce      sync.Once
+			submittedMap = make(map[int]*hackernews.Item)
+			submitted    []*hackernews.Item
+		)
+		mu := &sync.Mutex{}
+
 		for _, id := range user.Submitted {
-			item, err := c.GetItem(r.Context(), id)
-			if err != nil {
-				pages.NotFound().Render(r.Context(), w)
-				return
+			wg.Add(1)
+			go func(id int) {
+				defer wg.Done()
+				item, e := c.Item(r.Context(), id)
+				if e != nil {
+					errOnce.Do(func() {
+						err = e
+					})
+					return
+				}
+				if item.Type == "story" {
+					mu.Lock()
+					submittedMap[id] = item
+					mu.Unlock()
+				}
+			}(id)
+		}
+		wg.Wait()
+
+		// We need to sort the submitted stories by the order they were submitted
+		for _, id := range user.Submitted {
+			if item, exists := submittedMap[id]; exists {
+				submitted = append(submitted, item)
 			}
-			if item.Type != "story" {
-				continue
-			}
-			submitted = append(submitted, item)
 		}
 
 		pageStr := r.URL.Query().Get("p")
@@ -49,9 +72,6 @@ func HandleSubmitted(c *hackernews.Client) http.HandlerFunc {
 
 		start := (page - 1) * pageSize
 		end := start + pageSize
-		if start > len(submitted) {
-			start = len(submitted)
-		}
 		if end > len(submitted) {
 			end = len(submitted)
 		}

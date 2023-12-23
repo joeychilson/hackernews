@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 	"strconv"
+	"sync"
 
 	"github.com/joeychilson/hackernews/pages"
 	"github.com/joeychilson/hackernews/pkg/hackernews"
@@ -16,7 +17,7 @@ func HandleThreads(c *hackernews.Client) http.HandlerFunc {
 			return
 		}
 
-		user, err := c.GetUser(r.Context(), id)
+		user, err := c.User(r.Context(), id)
 		if err != nil {
 			pages.Error().Render(r.Context(), w)
 			return
@@ -27,17 +28,39 @@ func HandleThreads(c *hackernews.Client) http.HandlerFunc {
 			return
 		}
 
-		var threads []*hackernews.Item
+		var (
+			wg         sync.WaitGroup
+			errOnce    sync.Once
+			threadsMap = make(map[int]*hackernews.Item)
+			threads    []*hackernews.Item
+		)
+		mu := &sync.Mutex{}
+
 		for _, id := range user.Submitted {
-			item, err := c.GetItem(r.Context(), id)
-			if err != nil {
-				pages.NotFound().Render(r.Context(), w)
-				return
+			wg.Add(1)
+			go func(id int) {
+				defer wg.Done()
+				item, e := c.Item(r.Context(), id)
+				if e != nil {
+					errOnce.Do(func() {
+						err = e
+					})
+					return
+				}
+				if item.Type == "comment" {
+					mu.Lock()
+					threadsMap[id] = item
+					mu.Unlock()
+				}
+			}(id)
+		}
+		wg.Wait()
+
+		// We need to sort the submitted stories by the order they were submitted
+		for _, id := range user.Submitted {
+			if item, exists := threadsMap[id]; exists {
+				threads = append(threads, item)
 			}
-			if item.Type != "comment" {
-				continue
-			}
-			threads = append(threads, item)
 		}
 
 		pageStr := r.URL.Query().Get("p")
@@ -58,7 +81,7 @@ func HandleThreads(c *hackernews.Client) http.HandlerFunc {
 
 		threadItems := make([]*hackernews.Item, 0, len(threads))
 		for _, thread := range threads {
-			item, err := c.GetItem(r.Context(), thread.ID)
+			item, err := c.Item(r.Context(), thread.ID)
 			if err != nil {
 				pages.NotFound().Render(r.Context(), w)
 				return
