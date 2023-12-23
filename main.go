@@ -37,8 +37,6 @@ func main() {
 	mux.HandleFunc("/newest", handlers.HandleNewest(client))
 	mux.HandleFunc("/news", handlers.HandleNews(client))
 	mux.HandleFunc("/show", handlers.HandleShow(client))
-	mux.HandleFunc("/submitted", handlers.HandleSubmitted(client))
-	mux.HandleFunc("/threads", handlers.HandleThreads(client))
 	mux.HandleFunc("/user", handlers.HandleUser(client))
 
 	log.Println("Listening on http://localhost:8080")
